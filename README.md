@@ -31,6 +31,10 @@
   <summary>
     <a href="#5-query-sql">5. Query SQL</a>
   </summary>
+  
+  <summary>
+    <a href="#6-autor">6. Autor</a>
+  </summary>
 
 ## 🚀 Para realizar el Proyecto Integrador te propongo realizar los siguientes pasos...
 
@@ -108,6 +112,8 @@ CREATE TABLE IF NOT EXISTS `movie_genres` (
   CONSTRAINT `id_genre` FOREIGN KEY (`idgenre_movie_genres`) REFERENCES `genres` (`id_genre`) ON DELETE CASCADE,
   CONSTRAINT `id_movie` FOREIGN KEY (`idmovie_movie_genres`) REFERENCES `movies` (`id_movie`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 ```
-
+<br/><br/>
+# `6. Autor`
+[Juan Mercado](https://github.com/juan86) <a href="https://www.linkedin.com/in/kevynbruyere/"><img src="assets/linkedin.svg" width="25" height="25"></img></a>
+💻 Programador
