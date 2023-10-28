@@ -115,5 +115,5 @@ CREATE TABLE IF NOT EXISTS `movie_genres` (
 ```
 <br/><br/>
 # `6. Autor`
-[Juan Mercado](https://github.com/juan86) <a href="https://www.linkedin.com/in/kevynbruyere/"><img src="assets/linkedin.svg" width="25" height="25"></img></a>
+[Juan Mercado](https://github.com/juan86) <a href="https://www.linkedin.com/in/juan-mercado-0aba7a68/"><img src="assets/linkedin.svg" width="20" height="20"></img></a>
 💻 Programador
