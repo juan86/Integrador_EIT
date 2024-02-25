@@ -15,7 +15,7 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
     @Override
     public Movie searchById(Integer key) {
 
-        List<Movie> movies = getByProperty("id", new Movie(key, "qsqsq", "", ""));
+        List<Movie> movies = getByProperty("id", new Movie(key, "","",  null));
 
         return (!movies.isEmpty()) ? movies.get(0) : null;
     }
@@ -39,7 +39,9 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
 
                 try (ResultSet result = objectSentenceSQL.executeQuery()) {
                     while(result.next()){
-                        movies.add(new Movie(result.getInt("id_movie"), result.getString("title_movie"), result.getString("url_movie"), result.getString("image_movie")));
+                        Movie newMovie = new Movie(result.getInt("id_movie"), result.getString("title_movie"), result.getString("url_movie"), null);
+                        //Blob imagenBlob = result.getBlob("image_movie");
+                        movies.add(newMovie);
                     }
                 }
 
@@ -69,7 +71,9 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
             ResultSet result = objectSentenceSQL.executeQuery();
 
             while(result.next()){
-                movies.add(new Movie(result.getInt("id_movie"), result.getString("title_movie"), result.getString("url_movie"), result.getString("image_movie")));
+                Movie newMovie = new Movie(result.getInt("id_movie"), result.getString("url_movie"), result.getString("title_movie"), null);
+                movies.add(newMovie);
+                //movies.add(new Movie(, , , result.getString("image_movie")));
             }
 
             if(!movies.isEmpty()){
@@ -101,7 +105,9 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
 
             try (ResultSet result = objectSentenceSQL.executeQuery()) {
                 while (result.next()) {
-                    movies.add(new Movie(result.getInt("id_movie"), result.getString("title_movie"), result.getString("url_movie"), result.getString("image_movie")));
+                    Movie newMovie = new Movie(result.getInt("id_movie"), result.getString("title_movie"), result.getString("url_movie"), null);
+                    movies.add(newMovie);
+                    //movies.add(new Movie(, , , result.getString("image_movie")));
                 }
             }
 
@@ -129,7 +135,8 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
 
             objectSentenceSQL.setString(1, entity.getTitle());
             objectSentenceSQL.setString(2, entity.getUrl());
-            objectSentenceSQL.setString(3, entity.getImage());
+            //objectSentenceSQL.setString(3, entity.getImage());
+            objectSentenceSQL.setString(3, null);
             int result = objectSentenceSQL.executeUpdate();
 
             if(result != 1){
@@ -165,7 +172,8 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
 
             objectSentenceSQL.setString(1, entity.getTitle());
             objectSentenceSQL.setString(2, entity.getUrl());
-            objectSentenceSQL.setString(3, entity.getImage());
+            //objectSentenceSQL.setString(3, entity.getImage());
+            objectSentenceSQL.setString(3, null);
             objectSentenceSQL.setInt(4, entity.getCode());
 
             int resul = objectSentenceSQL.executeUpdate();

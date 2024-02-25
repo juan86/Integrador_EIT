@@ -1,5 +1,6 @@
 package org.educacionIt.model.domain;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,18 +9,18 @@ public class Movie {
     private int code;
     private String title;
     private String url;
-    private String image;
+    private File image;
     private List<MovieGenre> genres;
 
-    public Movie(String title, String url, String image) {
+    public Movie(int code, String title, String url, File image) {
+        this.code = code;
         this.title = title;
         this.url = url;
         this.image = image;
         this.genres = new ArrayList<>();
     }
 
-    public Movie(int code, String title, String url, String image) {
-        this.code = code;
+    public Movie(String title, String url, File image) {
         this.title = title;
         this.url = url;
         this.image = image;
@@ -38,7 +39,7 @@ public class Movie {
         return url;
     }
 
-    public String getImage() {
+    public File getImage() {
         return image;
     }
 
@@ -48,7 +49,7 @@ public class Movie {
 
     public void setUrl(String url) {this.url = url;}
 
-    public void setImage(String image) {this.image = image;}
+    public void setImage(File image) {this.image = image;}
 
     public void addGenres(MovieGenre genres) {this.genres.add(genres);}
 

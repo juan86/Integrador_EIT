@@ -1,4 +1,4 @@
-package org.educacionIt.main;
+package org.educacionIt.model.utils;
 
 import org.educacionIt.dao.imp.GenreDao;
 import org.educacionIt.dao.imp.MovieDao;
@@ -7,6 +7,7 @@ import org.educacionIt.model.domain.MovieGenre;
 
 import java.util.List;
 import java.util.Scanner;
+import java.io.File;
 
 public class ProgramaPrincipal {
     private static Scanner input = new Scanner(System.in);
@@ -96,7 +97,7 @@ public class ProgramaPrincipal {
         String nameMovie = input.next();
         System.out.print("URL: ");
         String urlMovie = input.next();
-        Movie newMovie = new Movie(nameMovie, urlMovie, "");
+        Movie newMovie = new Movie(nameMovie, urlMovie, null);
         boolean addNewGenre = true;
         do{
             System.out.println("Deseas asignarle generos a la pelicula? Y/N: ");
@@ -153,7 +154,7 @@ public class ProgramaPrincipal {
             System.out.println("Ingrese la url de la Pelicula (no ingrese nada si no quiere modificar): ");
             String movieUrl = input.nextLine();
             System.out.print("Desea modificar el genero de l apelicula? (S/N)");
-            Movie movieModify = new Movie(movieName, movieUrl, "");
+            Movie movieModify = new Movie(movieName, movieUrl, null);
             String condition = input.next();
             movieFound.setTitle(movieName);
             movieFound.setUrl(movieUrl);
@@ -340,7 +341,7 @@ public class ProgramaPrincipal {
         System.out.print("Ingrese el Nombre del titulo de la Pelicula: ");
         String title = input.nextLine();
         MovieDao movieDao = new MovieDao();
-        List<Movie> movies = movieDao.getByProperty("title", new Movie(title, "", ""));
+        List<Movie> movies = movieDao.getByProperty("title", new Movie(title, "", null));
         List<String> listMovieName = movies.stream().map(Movie::getTitle).toList();
         printMenu("Peliculas con Titulo: "+title, listMovieName);
         System.out.print("Ingrese el numero de la pelicula a ver: ");
@@ -458,5 +459,15 @@ public class ProgramaPrincipal {
             }
         }
         return anchoMaximo;
+    }
+
+    private static boolean isValidImage(String path){
+
+        return true;
+    }
+
+    public static String getRutaAbsolutaImagenes(){
+        File carpeta = new File(System.getProperty("user.dir"), "imagenes");
+        return carpeta.getAbsolutePath();
     }
 }
