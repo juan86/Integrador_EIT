@@ -6,6 +6,8 @@ import org.educacionIt.model.domain.GenderRelation;
 import org.educacionIt.model.domain.Movie;
 import org.educacionIt.model.domain.MovieGenre;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,10 +134,12 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
         try (Connection connection = getConexion();
              PreparedStatement objectSentenceSQL = connection.prepareStatement(sentenceSQL, Statement.RETURN_GENERATED_KEYS)){
 
+            FileInputStream fileInputStream = new FileInputStream(entity.getImage());
+
             objectSentenceSQL.setString(1, entity.getTitle());
             objectSentenceSQL.setString(2, entity.getUrl());
-            //objectSentenceSQL.setString(3, entity.getImage());
-            objectSentenceSQL.setString(3, null);
+            objectSentenceSQL.setBlob(3, fileInputStream);
+
             int result = objectSentenceSQL.executeUpdate();
 
             if(result != 1){
@@ -157,7 +161,7 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
 
             }
 
-        }catch(SQLException e){
+        }catch(SQLException | FileNotFoundException e){
             throw new RuntimeException(e);
         }
         return idMovieGenerated;
@@ -169,10 +173,11 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
         try (Connection connection = getConexion();
              PreparedStatement objectSentenceSQL = connection.prepareStatement(sentenceSQL);){
 
+            FileInputStream fileInputStream = new FileInputStream(entity.getImage());
+
             objectSentenceSQL.setString(1, entity.getTitle());
             objectSentenceSQL.setString(2, entity.getUrl());
-            //objectSentenceSQL.setString(3, entity.getImage());
-            objectSentenceSQL.setString(3, null);
+            objectSentenceSQL.setBlob(3, fileInputStream);
             objectSentenceSQL.setInt(4, entity.getCode());
 
             int resul = objectSentenceSQL.executeUpdate();
@@ -189,7 +194,7 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
                 genreRelationDao.insert(new GenderRelation(entity.getCode(), genre.getId()));
             });
 
-        }catch(SQLException e) {
+        }catch(SQLException | FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 

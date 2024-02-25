@@ -5,11 +5,15 @@ import org.educacionIt.dao.imp.MovieDao;
 import org.educacionIt.model.domain.Movie;
 import org.educacionIt.model.domain.MovieGenre;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class OpcionMenuPeliculas {
-    private Scanner input;
+    private final Scanner input;
 
     public OpcionMenuPeliculas(Scanner input){
         this.input = input;
@@ -59,28 +63,35 @@ public class OpcionMenuPeliculas {
     }
 
     private void addMovieOption(){
+        File image = null;
         System.out.println("Alta pelicula.\n");
         System.out.print("Ingrese el nombre de la pelicula: ");
         String nameMovie = input.next();
-        System.out.print("URL: ");
-        String urlMovie = input.next();
-        Movie newMovie = new Movie(nameMovie, urlMovie, null);
+        System.out.print("Ingrese la url de la pelicula: ");
+        String url = input.next();
+        System.out.print("Desea agregar una imagen (S/N): ");
+        String respuesta = input.next();
+        input.nextLine();
+        if (respuesta.equalsIgnoreCase("S")) image = this.obtenerImagenAGuardar();
+        Movie newMovie = new Movie(nameMovie, url,  image);
+        System.out.println("Deseas asignarle generos a la pelicula? S/N: ");
+        String inputQuestion = input.next();
         boolean addNewGenre = true;
         do{
-            System.out.println("Deseas asignarle generos a la pelicula? Y/N: ");
-            String inputQuestion = input.next();
-            if(inputQuestion.equalsIgnoreCase("y")){
+            if(inputQuestion.equalsIgnoreCase("S")){
                 MovieGenre selectedGenre = getGenreForAdd();
                 if(selectedGenre != null) newMovie.addGenres(selectedGenre);
             }else {
                 addNewGenre = false;
             }
         }while(addNewGenre);
+
         if(newMovie != null){
             MovieDao movieDao = new MovieDao();
             movieDao.insert(newMovie);
             System.out.println("Se guardo correctamente la pelicula: "+newMovie);
         }
+
     }
 
     private void deleteMovieOption(){
@@ -120,17 +131,24 @@ public class OpcionMenuPeliculas {
         Movie movieFound = movieDao.searchById(movieId);
         if(movieFound != null){
             System.out.print("Ingrese el nombre de la Pelicula (no ingrese nada si no quiere modificar): ");
-            String movieName = input.nextLine();
+            String movieTitle = input.nextLine();
             System.out.println("Ingrese la url de la Pelicula (no ingrese nada si no quiere modificar): ");
             String movieUrl = input.nextLine();
-            System.out.print("Desea modificar el genero de l apelicula? (S/N)");
-            Movie movieModify = new Movie(movieName, movieUrl, null);
-            String condition = input.next();
-            movieFound.setTitle(movieName);
-            movieFound.setUrl(movieUrl);
-            if(condition.equalsIgnoreCase("S")){
+            System.out.print("Desea modificar la imagen de la pelicula? S/N");
+            System.out.print("Desea agregar una imagen (S/N): ");
+            String respuesta = input.next();
+            input.nextLine();
+            if (respuesta.equalsIgnoreCase("S")) {
+                File image = this.obtenerImagenAGuardar();
+                if(image != null) movieFound.setImage(image);
+            }
+            System.out.println("Desea modificar el genero de la pelicula? (S/N)");
+            String inputQuestion = input.next();
+            if(inputQuestion.equalsIgnoreCase("S")){
                 modifyGenre(movieFound);
             }
+            if(!movieTitle.isEmpty()) movieFound.setTitle(movieTitle);
+            if(!movieUrl.isEmpty()) movieFound.setUrl(movieUrl);
             movieDao.update(movieFound);
         }else{
             System.out.println("No existe la Pelicula con el id: "+movieId);
@@ -210,4 +228,66 @@ public class OpcionMenuPeliculas {
         }
         return movieGenre;
     }
+
+    private File obtenerImagenAGuardar(){
+        boolean continueRunning = true;
+        File image = null;
+        while (continueRunning){
+            System.out.println("Antes de seguir debe guardar la imagen en la ruta: "+PrintMenu.getRutaAbsolutaImagenes());
+            System.out.println("Guardó la imagen?");
+            System.out.println("'S': Se continua con la carga de la imagen");
+            System.out.println("'N': Anular la carga de la imagen");
+            String respuesta = input.next();
+
+            if (respuesta.equalsIgnoreCase("N")){
+                System.out.println("Se anula la carga de la imagen");
+                continueRunning = false;
+                continue;
+            } else if (!respuesta.equalsIgnoreCase("S")) {
+                System.out.println("Ingrese un valor valido");
+                continue;
+            }
+
+            File dir = new File(PrintMenu.getRutaAbsolutaImagenes());
+            FilenameFilter filter = new FilenameFilter() {
+                public boolean accept(File dir, String name) {
+                    return name.toLowerCase().endsWith(".jpg") || name.toLowerCase().endsWith(".png") || name.toLowerCase().endsWith(".gif");
+                }
+            };
+
+            // Obtener la lista de archivos de imagen
+            File[] files = dir.listFiles(filter);
+
+            if(files == null || files.length <= 0){
+                System.out.println("No se encuentro ninguna imagen");
+                System.out.println(" ");
+                continue;
+            }
+
+            // Crear una lista de los nombres de los archivos usando map
+            List<String> fileNames = Arrays.stream(files)
+                                            .map(File::getName)
+                                            .collect(Collectors.toList());
+            fileNames.add("Salir");
+            while(continueRunning){
+                PrintMenu.print("Imagenes encontradas", fileNames);
+                System.out.println("Ingrese una opcion:");
+                int inputOption = input.nextInt();
+                if(inputOption == fileNames.size()){
+                    continueRunning = false;
+                    continue;
+                }
+                if(!(inputOption > 0 && inputOption < fileNames.size())){
+                    System.out.println("Debe ingresar una opcion valida");
+                    continue;
+                }
+                image = new File(PrintMenu.getRutaAbsolutaImagenes()+File.separator+fileNames.get(inputOption-1));
+                continueRunning = false;
+            }
+
+        };
+        return image;
+    }
+
+
 }

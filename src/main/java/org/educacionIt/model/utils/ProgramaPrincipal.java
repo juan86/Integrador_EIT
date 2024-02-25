@@ -2,7 +2,6 @@ package org.educacionIt.model.utils;
 
 import java.util.List;
 import java.util.Scanner;
-import java.io.File;
 
 public class ProgramaPrincipal {
     private static Scanner input = new Scanner(System.in);
@@ -47,18 +46,5 @@ public class ProgramaPrincipal {
             }
         }
 
-    }
-
-
-
-
-    private static boolean isValidImage(String path){
-
-        return true;
-    }
-
-    public static String getRutaAbsolutaImagenes(){
-        File carpeta = new File(System.getProperty("user.dir"), "imagenes");
-        return carpeta.getAbsolutePath();
     }
 }

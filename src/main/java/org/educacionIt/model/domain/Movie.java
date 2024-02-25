@@ -12,7 +12,7 @@ public class Movie {
     private File image;
     private List<MovieGenre> genres;
 
-    public Movie(int code, String title, String url, File image) {
+    public Movie(int code, String title,String url,File image) {
         this.code = code;
         this.title = title;
         this.url = url;
@@ -22,8 +22,8 @@ public class Movie {
 
     public Movie(String title, String url, File image) {
         this.title = title;
-        this.url = url;
         this.image = image;
+        this.url = url;
         this.genres = new ArrayList<>();
     }
 
@@ -61,7 +61,6 @@ public class Movie {
     public String toString() {
         return "Code:    "+ code  +"\n"+
                 "Title:  "+ title + '\n' +
-                "Url:    "+ url   + '\n' +
                 "Genres: "+genres +'\n';
     }
 }

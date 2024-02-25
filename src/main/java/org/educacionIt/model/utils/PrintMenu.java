@@ -1,5 +1,6 @@
 package org.educacionIt.model.utils;
 
+import java.io.File;
 import java.util.List;
 
 public class PrintMenu {
@@ -91,5 +92,10 @@ public class PrintMenu {
             }
         }
         return anchoMaximo;
+    }
+
+    public static String getRutaAbsolutaImagenes(){
+        File carpeta = new File(System.getProperty("user.dir"), "imagenes");
+        return carpeta.getAbsolutePath();
     }
 }
