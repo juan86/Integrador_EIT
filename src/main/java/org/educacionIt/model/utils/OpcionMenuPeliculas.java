@@ -67,8 +67,10 @@ public class OpcionMenuPeliculas {
         System.out.println("Alta pelicula.\n");
         System.out.print("Ingrese el nombre de la pelicula: ");
         String nameMovie = input.next();
+        input.nextLine();
         System.out.print("Ingrese la url de la pelicula: ");
         String url = input.next();
+        input.nextLine();
         System.out.print("Desea agregar una imagen (S/N): ");
         String respuesta = input.next();
         input.nextLine();
@@ -80,7 +82,11 @@ public class OpcionMenuPeliculas {
         do{
             if(inputQuestion.equalsIgnoreCase("S")){
                 MovieGenre selectedGenre = getGenreForAdd();
-                if(selectedGenre != null) newMovie.addGenres(selectedGenre);
+                if(selectedGenre != null) {
+                    newMovie.addGenres(selectedGenre);
+                }else{
+                    addNewGenre = false;
+                }
             }else {
                 addNewGenre = false;
             }
