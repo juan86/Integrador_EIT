@@ -140,8 +140,7 @@ public class OpcionMenuPeliculas {
             String movieTitle = input.nextLine();
             System.out.println("Ingrese la url de la Pelicula (no ingrese nada si no quiere modificar): ");
             String movieUrl = input.nextLine();
-            System.out.print("Desea modificar la imagen de la pelicula? S/N");
-            System.out.print("Desea agregar una imagen (S/N): ");
+            System.out.print("Desea modificar la imagen de la pelicula? S/N: ");
             String respuesta = input.next();
             input.nextLine();
             if (respuesta.equalsIgnoreCase("S")) {
@@ -155,6 +154,7 @@ public class OpcionMenuPeliculas {
             }
             if(!movieTitle.isEmpty()) movieFound.setTitle(movieTitle);
             if(!movieUrl.isEmpty()) movieFound.setUrl(movieUrl);
+
             movieDao.update(movieFound);
         }else{
             System.out.println("No existe la Pelicula con el id: "+movieId);

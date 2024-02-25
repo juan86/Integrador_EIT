@@ -134,11 +134,18 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
         try (Connection connection = getConexion();
              PreparedStatement objectSentenceSQL = connection.prepareStatement(sentenceSQL, Statement.RETURN_GENERATED_KEYS)){
 
-            FileInputStream fileInputStream = new FileInputStream(entity.getImage());
+            FileInputStream fileInputStream = null;
+            if (entity.getImage() != null) {
+                fileInputStream = new FileInputStream(entity.getImage());
+            }
 
             objectSentenceSQL.setString(1, entity.getTitle());
             objectSentenceSQL.setString(2, entity.getUrl());
-            objectSentenceSQL.setBlob(3, fileInputStream);
+            if (fileInputStream != null) {
+                objectSentenceSQL.setBlob(3, fileInputStream);
+            } else {
+                objectSentenceSQL.setNull(3, java.sql.Types.BLOB);
+            }
 
             int result = objectSentenceSQL.executeUpdate();
 
@@ -173,11 +180,20 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
         try (Connection connection = getConexion();
              PreparedStatement objectSentenceSQL = connection.prepareStatement(sentenceSQL);){
 
-            FileInputStream fileInputStream = new FileInputStream(entity.getImage());
+            FileInputStream fileInputStream = null;
+            if (entity.getImage() != null) {
+                fileInputStream = new FileInputStream(entity.getImage());
+            }
 
             objectSentenceSQL.setString(1, entity.getTitle());
             objectSentenceSQL.setString(2, entity.getUrl());
-            objectSentenceSQL.setBlob(3, fileInputStream);
+
+            if (fileInputStream != null) {
+                objectSentenceSQL.setBlob(3, fileInputStream);
+            } else {
+                objectSentenceSQL.setNull(3, java.sql.Types.BLOB);
+            }
+
             objectSentenceSQL.setInt(4, entity.getCode());
 
             int resul = objectSentenceSQL.executeUpdate();
