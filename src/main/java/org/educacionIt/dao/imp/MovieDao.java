@@ -71,9 +71,8 @@ public class MovieDao implements ConectionMySQLDB, DAO<Movie, Integer> {
             ResultSet result = objectSentenceSQL.executeQuery();
 
             while(result.next()){
-                Movie newMovie = new Movie(result.getInt("id_movie"), result.getString("url_movie"), result.getString("title_movie"), null);
+                Movie newMovie = new Movie(result.getInt("id_movie"), result.getString("title_movie"), result.getString("url_movie"), null);
                 movies.add(newMovie);
-                //movies.add(new Movie(, , , result.getString("image_movie")));
             }
 
             if(!movies.isEmpty()){
