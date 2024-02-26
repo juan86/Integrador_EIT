@@ -80,6 +80,8 @@ proyecto y un enlace a una red social del autor, preferentemente linkedin**
 <br/><br/>
 
 # `5. Query SQL`
+## Script base de datos
+Descarga el script de la base de datos del programa desde [aquí](https://drive.google.com/drive/folders/1flybW8EWSQebvya6_al06LlnicPl8NKV?usp=sharing)
 ```sql
 CREATE DATABASE IF NOT EXISTS `movie_db`;
 USE `movie_db`;
