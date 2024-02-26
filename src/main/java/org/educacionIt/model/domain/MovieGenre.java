@@ -38,9 +38,7 @@ public class MovieGenre {
 
     @Override
     public String toString() {
-        return "id : "+id+'\n'+
-                "Name : "+name+'\n'+
-                "Espanish name: "+nameEs+"\n";
+        return "id : "+id+" / Name : "+name+" / Espanish name: "+nameEs;
     }
 }
 

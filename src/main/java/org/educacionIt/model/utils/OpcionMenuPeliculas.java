@@ -211,8 +211,8 @@ public class OpcionMenuPeliculas {
     private void listMovies(){
         MovieDao movieDao = new MovieDao();
         List<Movie> movies = movieDao.getAll();
-        List<String> listIdAndNameMovies = movies.stream().map(movie -> "( "+movie.getCode()+" ) - ( "+movie.getTitle()+" )").toList();
-        PrintMenu.print("( ID ) - ( Nombre de pelicula )", listIdAndNameMovies);
+        List<String> listIdAndNameMovies = movies.stream().map(movie -> "[ "+movie.getCode()+" - "+movie.getTitle()+" ]").toList();
+        PrintMenu.print("[ ID - Nombre de pelicula ]", listIdAndNameMovies);
     }
 
     private MovieGenre getGenreForAdd(){
@@ -294,6 +294,4 @@ public class OpcionMenuPeliculas {
         };
         return image;
     }
-
-
 }

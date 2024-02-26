@@ -3,6 +3,7 @@ package org.educacionIt.model.domain;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class Movie {
@@ -57,10 +58,17 @@ public class Movie {
         return genres;
     }
 
+    private String getStringGenres(){
+        String joinedGenres = genres.stream()
+                .map(MovieGenre::getName)
+                .collect(Collectors.joining(", ", "[", "]"));
+        return joinedGenres;
+    }
+
     @Override
     public String toString() {
         return "Code:    "+ code  +"\n"+
                 "Title:  "+ title + '\n' +
-                "Genres: "+genres +'\n';
+                "Genres: "+getStringGenres()+'\n';
     }
 }
